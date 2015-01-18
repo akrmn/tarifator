@@ -2,6 +2,30 @@ from datetime import date, datetime, time, timedelta
 from decimal import *
 ONE_HOUR = timedelta(hours=1)
 
+class NegativeTariff(Exception):
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return repr(self.value)
+
+class NonsenseTariff(Exception):
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return repr(self.value)
+
+class DwarfishReservation(Exception):
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return repr(self.value)
+
+class ExcessiveReservation(Exception):
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return repr(self.value)
+
 class Tariff:
     def __init__(self,
         dayRate,
@@ -9,8 +33,9 @@ class Tariff:
         dayStart = time(6, 0, 0, 0),
         nightStart = time(18, 0, 0, 0)
     ):
-        assert(dayRate > 0 and nightRate > 0)
-        assert(
+        if not (dayRate > 0 and nightRate > 0):
+            raise NegativeTariff((dayRate, nightRate))
+        if not (
             nightStart.microsecond + 1000000*(
                 nightStart.second + 60*(
                     nightStart.minute + 60*(
@@ -26,15 +51,18 @@ class Tariff:
                 )
             ) >
             60*60*1000000
-        )
+        ):
+            raise NonsenseTariff("")
         self.dayRate = dayRate
         self.nightRate = nightRate
         self.dayStart = dayStart
         self.nightStart = nightStart
 
     def charge(self, start, end):
-        assert(end - start >= timedelta(minutes=15))
-        assert(end - start <= timedelta(hours=72))
+        if not (end - start >= timedelta(minutes=15)):
+            raise DwarfishReservation(end-start)
+        if not (end - start <= timedelta(hours=72)):
+            raise ExcessiveReservation(end-start)
 
         total = Decimal('0.00')
         current = start
