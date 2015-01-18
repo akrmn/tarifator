@@ -23,6 +23,11 @@ class Test15Min(unittest.TestCase):
         end = start + timedelta(minutes=15)
         self.assertEqual(Decimal('40.00'), simpleTariff().charge(start, end))
 
+    def test15MinNightCrossover(self):
+        start = datetime(year=2015, month=1, day=20, hour=5, minute=55)
+        end = start + timedelta(minutes=15)
+        self.assertEqual(Decimal('40.00'), simpleTariff().charge(start,end))
+
 class TestOneHour(unittest.TestCase):
     def testOneHourDayNormal(self):
         start = datetime(year=2015, month=1, day=20, hour=10)
@@ -53,6 +58,22 @@ class TestOneHour(unittest.TestCase):
         end = datetime(year=2015, month=1, day=20, hour=6)
         start = end - timedelta(hours=1)
         self.assertEqual(Decimal('40.00'), simpleTariff().charge(start, end))
+
+class TestOneDay(unittest.TestCase):
+    def testOneDayStartEdge(self):
+        start = datetime(year=2015, month=1, day=20, hour=6)
+        end = start + timedelta(hours = 24)
+        self.assertEqual(Decimal('876.00'), simpleTariff().charge(start, end))
+    
+    def testOneDayEndEdge(self):
+        start = datetime(year=2015, month=1, day=20, hour=18)
+        end = start + timedelta(hours = 24)
+        self.assertEqual(Decimal('876.00'), simpleTariff().charge(start, end))
+
+    def testOneDayCrossover(self):
+        start = datetime(year=2015, month=1, day=20, hour=6, minute=1)
+        end = start + timedelta(hours = 24)
+        self.assertEqual(Decimal('883.00'), simpleTariff().charge(start, end))
 
 class TestMaxHours(unittest.TestCase):
     def testMaxHoursAligned(self):
