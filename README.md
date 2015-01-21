@@ -7,7 +7,8 @@ Commits
 Rápidamente nos familiarizamos con el flujo de trabajo típico de
 git: realizar unas cuantas ediciones coherentes entre sí, agregar
 los archivos editados con `git add`, y luego `git commit -m` seguido
-de un mensaje que explique brevemente los cambios realizados.
+de un mensaje que explique brevemente los cambios realizados, y por
+último enviar estos cambios al repositorio remoto con `git push`.
 
 Ramas
 -----
