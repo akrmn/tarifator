@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+print "Esto dos"
 from decimal import *
 from tariff import Tariff
 
