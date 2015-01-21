@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
+
 from decimal import *
 from tariff import Tariff
+
 TWOPLACES = Decimal(10) ** -2
 
 def getTariff():
