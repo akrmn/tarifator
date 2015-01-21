@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
+<<<<<<< HEAD
 print "esto deberia salir en el merge"
+=======
+print "Esto dos"
+>>>>>>> 2ndBranch
 from decimal import *
 from tariff import Tariff
 
